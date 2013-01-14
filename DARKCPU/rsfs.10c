@@ -123,11 +123,6 @@ rsfs_fOpen:
 		_sfArg(j, 0)
 		_sfArg(i, 2)
 		
-		set [i + VFS_FILE_OFFSET_MOUNTPOINT], [j + VFS_FILE_OFFSET_MOUNTPOINT]
-		set [i + VFS_FILE_OFFSET_SECTORSIZE], [j + VFS_FILE_OFFSET_SECTORSIZE]
-		set [i + VFS_FILE_OFFSET_MEDIAREAD], [j + VFS_FILE_OFFSET_MEDIAREAD]
-		set [i + VFS_FILE_OFFSET_MEDIAWRITE], [j + VFS_FILE_OFFSET_MEDIAWRITE]
-		
 		;Setup stack for calls to mediaread
 		_push RSFS_ENTRY_SIZE
 		_sfLocalPtr(push, RSFS_ENTRY_SIZE - 1)

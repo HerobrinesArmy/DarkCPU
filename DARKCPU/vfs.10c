@@ -244,6 +244,12 @@ vfs_fOpenFile:
 		_sfBegin(0)
 		
 		_sfArg(a, 0)
+		_sfArg(y, 2)
+		
+		set [y + VFS_FILE_OFFSET_MOUNTPOINT], [a + VFS_FILE_OFFSET_MOUNTPOINT]
+		set [y + VFS_FILE_OFFSET_SECTORSIZE], [a + VFS_FILE_OFFSET_SECTORSIZE]
+		set [y + VFS_FILE_OFFSET_MEDIAREAD],  [a + VFS_FILE_OFFSET_MEDIAREAD]
+		set [y + VFS_FILE_OFFSET_MEDIAWRITE], [a + VFS_FILE_OFFSET_MEDIAWRITE]
 		
 		_push [a + VFS_FILE_OFFSET_MOUNTPOINT]
 		call vfs_getMountFilesystem
@@ -278,6 +284,7 @@ vfs_fGetRoot:
 		set [i + VFS_FILE_OFFSET_FILEIDHI], 0
 		set [i + VFS_FILE_OFFSET_FILEIDLO], 0
 		set [i + VFS_FILE_OFFSET_FILEFLAGS], 0
+		
 		_sfArg([i + VFS_FILE_OFFSET_MOUNTPOINT], 0)
 		
 		;fill file descriptor with data about the storage media
@@ -404,6 +411,12 @@ vfs_fEnum:
 		_sfBegin(0)
 		
 		_sfArg(a, 0)
+		_sfArg(y, 1)
+		
+		set [y + VFS_FILE_OFFSET_MOUNTPOINT], [a + VFS_FILE_OFFSET_MOUNTPOINT]
+		set [y + VFS_FILE_OFFSET_SECTORSIZE], [a + VFS_FILE_OFFSET_SECTORSIZE]
+		set [y + VFS_FILE_OFFSET_MEDIAREAD],  [a + VFS_FILE_OFFSET_MEDIAREAD]
+		set [y + VFS_FILE_OFFSET_MEDIAWRITE], [a + VFS_FILE_OFFSET_MEDIAWRITE]
 		
 		_push [a + VFS_FILE_OFFSET_MOUNTPOINT]
 		call vfs_getMountFilesystem
