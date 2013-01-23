@@ -20,10 +20,10 @@ private:
 
 protected:
 	
-	static void writeHeader(std::ostream& out, const std::vector<Bitmap*>& allocationMaps, const WORD wRootFlat);
+	static void writeHeader(std::ostream& out, const std::vector<std::shared_ptr<Bitmap>>& allocationMaps, const WORD wRootFlat);
 	
 	void addDirectory(std::ostream& out, const DirectoryEntry& rootDir, const unsigned int iReservedEntries, 
-						LafsFlat& lastFlat, std::vector<Bitmap*>& allocationMaps, const bool isInlineDirectory = false);
+						LafsFlat& lastFlat, std::vector<std::shared_ptr<Bitmap>>& allocationMaps, const bool isInlineDirectory = false);
 	
 public:
 

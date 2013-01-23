@@ -9,7 +9,7 @@ using namespace DarkOsFormat;
 
 const DWORD LafsFormatter::LAFS_NAME_SIGNATURE = 'LAFS';
 
-void LafsFormatter::writeHeader(std::ostream& out, const std::vector<Bitmap*>& allocationMaps, const WORD wInitialFlat)
+void LafsFormatter::writeHeader(std::ostream& out, const std::vector<std::shared_ptr<Bitmap>>& allocationMaps, const WORD wInitialFlat)
 {
 	unsigned int uiHeaderSize = 0;
 
@@ -22,7 +22,7 @@ void LafsFormatter::writeHeader(std::ostream& out, const std::vector<Bitmap*>& a
 	
 	out.write(reinterpret_cast<const char*>(&wInitialFlat), sizeof(WORD));
 
-	//Fill the next four words with null (they are reserved)
+	//Fill the next words with null (they are reserved)
 	for(unsigned int i = 0; i < sizeof(WORD) * 3; i++)
 		out.put(0);
 
@@ -32,7 +32,7 @@ void LafsFormatter::writeHeader(std::ostream& out, const std::vector<Bitmap*>& a
 
 	uiHeaderSize += 16;
 
-	for(std::vector<Bitmap*>::const_iterator it = allocationMaps.begin(); it != allocationMaps.end(); it++)
+	for(std::vector<std::shared_ptr<Bitmap>>::const_iterator it = allocationMaps.begin(); it != allocationMaps.end(); it++)
 	{
 		out.write(reinterpret_cast<const char*>((*it)->getBitmap()), (*it)->getSize());
 		uiHeaderSize += (*it)->getSize();
@@ -43,7 +43,7 @@ void LafsFormatter::writeHeader(std::ostream& out, const std::vector<Bitmap*>& a
 }
 
 void LafsFormatter::addDirectory(std::ostream& out, const DirectoryEntry& rootDir, const unsigned int iReservedEntries, LafsFlat& lastFlat, 
-								std::vector<Bitmap*>& allocationMaps, const bool isDirectoryInlined)
+								std::vector<std::shared_ptr<Bitmap>>& allocationMaps, const bool isDirectoryInlined)
 {
 	unsigned int uiRequiredEntries = rootDir.getDirectories().size() * 2 + rootDir.getFiles().size();
 	const bool isNewFlat = (uiRequiredEntries + iReservedEntries) > lastFlat.getFreeEntries();
@@ -82,7 +82,7 @@ void LafsFormatter::addDirectory(std::ostream& out, const DirectoryEntry& rootDi
 
 	if(isNewFlat)
 	{
-		Bitmap* pBitmapBuffer = new Bitmap(static_cast<unsigned long>(std::ceil(static_cast<double>( LafsFlat::LAFS_ENTRIES_PER_FLAT / CHAR_BIT * sizeof(BYTE) ) ) ) );
+		std::shared_ptr<Bitmap> pBitmapBuffer(new Bitmap(static_cast<unsigned long>(std::ceil(static_cast<double>( LafsFlat::LAFS_ENTRIES_PER_FLAT / CHAR_BIT * sizeof(BYTE))))) );
 		currentFlat.format(out, *pBitmapBuffer);
 
 		allocationMaps.push_back(pBitmapBuffer);
@@ -91,13 +91,13 @@ void LafsFormatter::addDirectory(std::ostream& out, const DirectoryEntry& rootDi
 
 void LafsFormatter::create(std::ostream& out, const DirectoryEntry& rootDir)
 {
-	std::vector<Bitmap*> allocationMaps;
+	std::vector<std::shared_ptr<Bitmap>> allocationMaps;
 	LafsFlat rootFlat;
 
 	std::stringstream ssDataBuffer;
 	addDirectory(ssDataBuffer, rootDir, 0, rootFlat, allocationMaps, true);
 
-	Bitmap* pRootBitmap = new Bitmap(static_cast<unsigned long>(std::ceil(static_cast<double>( LafsFlat::LAFS_ENTRIES_PER_FLAT / CHAR_BIT * sizeof(BYTE) ) ) ) );
+	std::shared_ptr<Bitmap> pRootBitmap(new Bitmap(static_cast<unsigned long>(std::ceil(static_cast<double>( LafsFlat::LAFS_ENTRIES_PER_FLAT / CHAR_BIT * sizeof(BYTE))))));
 	rootFlat.format(ssDataBuffer, *pRootBitmap);
 	allocationMaps.push_back(pRootBitmap);
 
@@ -109,7 +109,4 @@ void LafsFormatter::create(std::ostream& out, const DirectoryEntry& rootDir)
 	
 	for(unsigned char b = ssDataBuffer.get(); !ssDataBuffer.eof(); b = ssDataBuffer.get())
 		out.put(b);
-
-	for(std::vector<Bitmap*>::const_iterator it = allocationMaps.begin(); it != allocationMaps.end(); it++)
-		delete *it;
 }

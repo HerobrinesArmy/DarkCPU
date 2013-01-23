@@ -23,7 +23,7 @@ void printUsage()
 	std::cout<<"Filesystem Image Creater."<<std::endl;
 	std::cout<<"Written By Jeremy (0x10cforum.com)"<<std::endl<<std::endl;
 	std::cout<<"Usage:"<<std::endl;
-	std::cout<<"\t rsfs|lafs [dest image name] [source directory path]"<<std::endl<<std::endl;
+	std::cout<<"\t [rsfs|lafs] [dest image name] [source directory path]"<<std::endl<<std::endl;
 }
 
 void warning(const std::string sWarning)
