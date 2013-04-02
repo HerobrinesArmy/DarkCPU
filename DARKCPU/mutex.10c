@@ -133,7 +133,7 @@ mutex_lock:
 ;\note Uses the cdecl calling convention \ref cdecl
 ;\param Index of the mutex object to be waited upon
 ;;
-mutex_waitForMutex:
+mutex_wait:
 		_sfBegin(0)
 		_push mutex_mutexStateTable
 		_sfArg(push, 0)

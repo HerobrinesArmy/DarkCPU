@@ -32,6 +32,8 @@ public:
 	static const unsigned int LAFS_ENTRY_SIZE;
 	static const unsigned int LAFS_SECTOR_SIZE;
 
+	static int getDirectoryEntryCount(const DirectoryEntry& dir);
+	
 	bool addFile(const FileEntry& file);
 	bool startDirectory(const DirectoryEntry& dir);
 	bool addJumpDirectory(const DirectoryEntry& dir, const int iNextFlat);

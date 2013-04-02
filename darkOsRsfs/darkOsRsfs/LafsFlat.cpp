@@ -15,6 +15,19 @@ const unsigned int LafsFlat::LAFS_JUMP_MAXLEN = 31;
 const unsigned int LafsFlat::LAFS_SECTOR_SIZE = 1024;
 const unsigned int LafsFlat::LAFS_ENTRY_SIZE = sizeof(WORD);
 
+int LafsFlat::getDirectoryEntryCount(const DirectoryEntry& dir)
+{
+	int iEntryCount = 2; //2 for root entry 1 (root directory) + 1 (jump directory)
+	std::vector<const DirectoryEntry> it = dir.getDirectories();
+	
+	for(std::vector<const DirectoryEntry>::const_iterator it = dir.getDirectories().begin();
+		it != dir.getDirectories().end(); 
+		it++)
+		iEntryCount += getDirectoryEntryCount(*it);
+
+	return iEntryCount;
+}
+
 bool LafsFlat::addFile(const FileEntry& file)
 {
 	WORD wEntryBuffer = 0x0000; //First bit is zero for a file
@@ -178,7 +191,7 @@ void LafsFlat::format(std::ostream& out, Bitmap& bitmap)
 			break;
 		case LafsEntryType_SkipDirectory:
 			{
-				encodeSkipName(ssStringFlat, (it->m_iJump ? iNext : it->m_directory.getSize()));
+				encodeSkipName(ssStringFlat, (it->m_iJump ? iNext : getDirectoryEntryCount(it->m_directory)));
 				encodeNext(ssEntryBuffer, it->m_wEntry, (it->m_iJump ? it->m_iJump : iNext), (it->m_iJump ? true : false));
 
 				for(std::streamoff i = 0; i < LAFS_SECTOR_SIZE; i++)

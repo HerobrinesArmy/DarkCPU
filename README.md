@@ -1,7 +1,7 @@
 DCPUOS
 ======
 To find out more about DarkCPU, or to contribute to the project, please visit the following URL
-http://darkcpu.enjin.com/
+http://herobrinesarmy.enjin.com
 
 License
 =======

@@ -3,8 +3,59 @@
 	set pc, pop
 }
 
-#macro call (address) {
+#macro rcall(address) {
+	_push nextinstr
+	_push address
+	sub [sp], nextinstr
+	add pc, pop
+nextinstr:
+}
+
+#macro call(address) {
 	jsr address
+}
+
+#macro _rpush(address) {
+	_push pc
+current:
+	sub [sp], current
+	add [sp], address
+}
+
+#macro xchg(a0, a1) {
+	xor a0, a1
+	xor a1, a0
+	xor a0, a1
+}
+
+;DOESNT WORK WITH Z
+#macro _rppush(address) {
+	_push pc
+current:
+	add [sp], address - current
+	xchg z, [sp]
+	set z, [z]
+	xchg z, [sp]
+}
+
+#macro rset(dest, src) {
+	_push z
+	set z, pc
+current:
+	add z, dest - current
+	set [z], src
+	_pop z
+}
+
+;DOESNT WORK IF DEST IS PUSH, USE _rppush
+;DOESNT WORK WITH Z AS DEST
+#macro setr(dest, src) {
+	_push pc
+current:
+	add [sp], src - current
+	xchg z, [sp]
+	set dest, [z]
+	_pop z
 }
 
 #macro jmp (address) {

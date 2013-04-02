@@ -1,6 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<solution>
+<solution version="1.7.6">
   <name>DarkCPU</name>
+  <loadout>
+    <loadout>
+      <hardware>
+        <device type="GenericClock" />
+        <device type="GenericKeyboard" />
+        <device type="LEM1802" />
+        <device type="SPED-3" />
+        <device type="M35FD" />
+      </hardware>
+      <interface>
+        <primaryDisplay>LEM1802-1:1</primaryDisplay>
+      </interface>
+    </loadout>
+  </loadout>
   <properties>
     <property name="emuLoad.projectName">DARKCPU</property>
     <property name="emuLoadMode">project</property>
@@ -10,5 +24,9 @@
     <project path="DARKCPU\DARKCPU.10cproj" />
     <project path="SHELL\SHELL.10cproj" />
     <project path="initrd_bootstrap\initrd_bootstrap.10cproj" />
+    <project path="LAFS\LAFS.10cproj" />
+    <project path="M35\M35.10cproj" />
+    <project path="common\common.10cproj" />
+    <project path="FILESYSTEM_DISK\FILESYSTEM_DISK.10cproj" />
   </projects>
 </solution>

@@ -103,7 +103,7 @@ int _tmain(int argc, char* argv[])
 
 		DirectoryEntry rootDir = findFiles(sSourcePath, std::string());
 
-		std::ofstream outFile(argv[2], std::ofstream::trunc);
+		std::ofstream outFile(argv[2], std::ofstream::trunc | std::ofstream::binary);
 
 		if(!outFile.is_open())
 			throw FormattingException("Error opening output file.");

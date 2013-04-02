@@ -351,7 +351,7 @@ threading_removeThread:
 		ret
 	
 	threading_removeThread_removeRoot:
-		SET [threading_rootThread], [y + THREADCONTEXT_OFFSET_NEXT]
+		set [threading_rootThread], [y + THREADCONTEXT_OFFSET_NEXT]
 		jmp threading_removeThread_removeEntry
 	
 ;;
@@ -406,7 +406,7 @@ threading_interrupt:
 		set [a + THREADCONTEXT_OFFSET_B], B
 		set [a + THREADCONTEXT_OFFSET_C], C
 		set [a + THREADCONTEXT_OFFSET_X], Z
-		SET [a + THREADCONTEXT_OFFSET_Y], Y
+		set [a + THREADCONTEXT_OFFSET_Y], Y
 		set [a + THREADCONTEXT_OFFSET_Z], Z
 		set [a + THREADCONTEXT_OFFSET_I], I
 		set [a + THREADCONTEXT_OFFSET_J], J
@@ -446,7 +446,7 @@ threading_interrupt:
 		
 		set a,  [a+ THREADCONTEXT_OFFSET_A]	;Set a register appropriately
 
-		IAQ 0 ; re-enable interrupts before returning to new thread.
+		iaq 0 ; re-enable interrupts before returning to new thread.
 		
 		jmp pop ; pop it off an jump to its pc.
 		

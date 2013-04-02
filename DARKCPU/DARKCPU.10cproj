@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<project version="1.7.5" type="code">
+<project version="1.7.6" type="code">
   <name>DARKCPU</name>
   <properties>
     <property name="code.generateBinaryOutput">true</property>
@@ -9,7 +9,9 @@
     <property name="code.setFirstFile">True</property>
     <property name="code.firstFile">main.10c</property>
   </properties>
-  <references />
+  <references>
+    <project>common</project>
+  </references>
   <files>
     <file path="main.10c" />
     <file path="peLoader.10c" />
@@ -23,14 +25,10 @@
     <file path="string.10c" />
     <file path="userInterfaceState.10c" />
     <file path="keyboard.10c" />
-    <file path="hmd.10c" />
     <file path="mutex.10c" />
     <file path="math.10c" />
-    <file path="macros.10c" />
     <file path="vfs.10c" />
-    <file path="ddsfsi.10c" />
     <file path="rsfs.10c" />
-    <file path="ddssi.10c" />
     <file path="ramddssi.10c" />
     <file path="..\initrd">
       <property name="providerFileTypeName">Binary Resource file</property>
